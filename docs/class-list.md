@@ -23,8 +23,16 @@ First draft of the classes, taken from the Requirements Document. We will use th
 | `InvigilatorAssigner` | Assigns invigilators if a list is given (optional) | FR 16, 43–49 |
 | `ScheduleExporter` | Exports and prints the schedule | FR 20, 21, 54 |
 
-The user interface classes will be added by Eljan with the screen sketches (T6).
+User interface (from Eljan's screen sketches; each screen is an FXML view with one controller class):
 
-**v0.2 changes:** added `ScheduleStatus` and `FileType`.
+| Class | Responsibility | Requirements |
+|---|---|---|
+| `MainController` | Main window with the menu; opens the screens | – |
+| `DataController` | Imports the input files and shows the import errors | FR 1, 3, 6, 23, 24 |
+| `ExamPeriodController` | Sets the exam days, time slots and period settings | FR 4 |
+| `ScheduleController` | Generates, shows, exports and prints the schedule | FR 7, 19, 20, 21, 54 |
+| `SettingsController` | Shows the scheduling rules and invigilator settings | FR 14–16 |
+
+**v0.2 changes:** added `ScheduleStatus`, `FileType` and the user interface controllers.
 
 **Parts:** Tuana – data classes, `ScheduleGenerator`, `ScheduleValidator` · Umut – `DataImporter`, `DataRepository`, `ScheduleUpdater` · Orhan – `Invigilator`, `InvigilatorAssigner`, `ScheduleExporter` · Eljan – user interface
