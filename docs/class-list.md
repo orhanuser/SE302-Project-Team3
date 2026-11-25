@@ -1,4 +1,4 @@
-# Class List (v0.1)
+# Class List (v0.2)
 
 First draft of the classes, taken from the Requirements Document. We will use these names in our diagrams. The list will be updated while we prepare the design drafts.
 
@@ -13,6 +13,8 @@ First draft of the classes, taken from the Requirements Document. We will use th
 | `ExamSchedule` | The created schedule | FR 7, 26 |
 | `ScheduledExam` | The exam of one course: its time slot and classrooms | FR 7, 19, 28, 29 |
 | `ClassroomAllocation` | One classroom of an exam and the students in it | FR 33, 34 |
+| `ScheduleStatus` | Enumeration: `VALID`, `OUTDATED` | FR 26 |
+| `FileType` | Enumeration of the input file types | FR 1, 14 |
 | `DataImporter` | Reads and checks the input files | FR 1, 3, 6, 23, 24 |
 | `DataRepository` | Saves and loads the data | FR 27 |
 | `ScheduleGenerator` | Creates the schedule following the rules | FR 7, 8, 28–39, 50–52 |
@@ -22,5 +24,7 @@ First draft of the classes, taken from the Requirements Document. We will use th
 | `ScheduleExporter` | Exports and prints the schedule | FR 20, 21, 54 |
 
 The user interface classes will be added by Eljan with the screen sketches (T6).
+
+**v0.2 changes:** added `ScheduleStatus` and `FileType`.
 
 **Parts:** Tuana – data classes, `ScheduleGenerator`, `ScheduleValidator` · Umut – `DataImporter`, `DataRepository`, `ScheduleUpdater` · Orhan – `Invigilator`, `InvigilatorAssigner`, `ScheduleExporter` · Eljan – user interface
