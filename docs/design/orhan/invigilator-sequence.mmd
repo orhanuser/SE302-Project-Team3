@@ -1,0 +1,44 @@
+sequenceDiagram
+    actor User as Staff
+    participant UI as UserInterface
+    participant Assigner as InvigilatorAssigner
+    participant Repo as DataRepository
+    participant Alloc as ClassroomAllocation
+    participant Inv as Invigilator
+
+    User->>UI: Click "Assign Invigilators"
+    UI->>Assigner: assignInvigilators(scheduleId)
+    Assigner->>Repo: loadExamSchedule(scheduleId)
+    Repo-->>Assigner: schedule
+    Assigner->>Repo: loadExamPeriodSettings()
+    Repo-->>Assigner: period (40 students, 30m break)
+    Assigner->>Repo: loadAllInvigilators()
+    Repo-->>Assigner: invigilators
+
+    alt no invigilators
+        Assigner-->>UI: AssignmentReport(skipped = true)
+        UI-->>User: Show message (no invigilators)
+    else has invigilators
+        Assigner->>Assigner: clearAssignments(schedule)
+        loop each ScheduledExam
+            loop each ClassroomAllocation
+                Assigner->>Alloc: getStudentCount()
+                Alloc-->>Assigner: studentCount
+                Assigner->>Assigner: calculateRequiredCount(studentCount)
+                loop each Invigilator
+                    Assigner->>Inv: isAvailable(slot)
+                    Assigner->>Inv: getDailyDutyCount(date)
+                    Assigner->>Assigner: checkConflictAndBreak(inv, exam)
+                end
+                Assigner->>Assigner: selectBestCandidates(eligible, required)
+                alt eligible < required
+                    Assigner->>Assigner: recordUnderstaffedSlot(slot)
+                end
+                Assigner->>Alloc: assignInvigilators(selected)
+            end
+        end
+        Assigner->>Repo: saveInvigilatorAssignments(schedule)
+        Repo-->>Assigner: ok
+        Assigner-->>UI: AssignmentReport
+        UI-->>User: Show assignments & warnings
+    end
